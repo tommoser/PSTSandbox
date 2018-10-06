@@ -34,15 +34,14 @@ namespace PSTTest
             totalItems += folder.ContentCount;
 
             if (folder.ContentCount > 0)
-            {
-                for (int i = 0; i < folder.ContentCount; i += 50)
+            {                
+                //foreach (var message in folder.GetContents(i, 50))                    
+                foreach (var message in folder.EnumerateMapiMessages())
                 {
-                    foreach (var message in folder.GetContents(i, 50))
-                    {
-                        var mi = new MessageInfo { Id = message.EntryIdString, Subject = message.Subject };
-                        outputData.Add(mi);
-                    }
-                }
+                    var mi = new MessageInfo { Id = message.InternetMessageId, Subject = message.Subject, AttachmentCount = message.Attachments.Count };
+                    Console.WriteLine(mi.Subject);
+                    outputData.Add(mi);
+                }                
             }
 
             Console.WriteLine(folder.DisplayName + ": "+ folder.ContentCount.ToString());
